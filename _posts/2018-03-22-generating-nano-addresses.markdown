@@ -31,7 +31,7 @@ So how do we get from a seed to an address? There are three steps in the process
 
 Nano uses the Blake2b hashing algorthm to generate the private key from the seed. I'm using the c# implementation found here [https://github.com/BLAKE2/BLAKE2](https://github.com/BLAKE2/BLAKE2).
 
-First lets get the bytes from the hex string. I'm using a helper method found on Stack Overflow [here](https://stackoverflow.com/a/321404) but there are more efficient methods on that page as well.
+First lets get the bytes from the hex string. I'm using a helper method found on Stack Overflow [here](https://stackoverflow.com/a/321404), other methods are available.
 
 {% highlight c# %}
 public static byte[] HexStringToByteArray(string hex) {
@@ -51,21 +51,21 @@ var seedBytes = HexStringToByteArray(seed);
 
 {% endhighlight %}
 
-Put the seed through Blake2b with the index of the account you wish to generate.
+Put the seed through Blake2b with the index of the account you wish to generate. We need to check the endianess of the index bytes as the blake implementation is expecting the bytes in big endian in order to match the output of the official wallets.
 
 {% highlight c# %}
 var blake = Blake2Sharp.Blake2B.Create(new Blake2Sharp.Blake2BConfig() { OutputSizeInBytes = 32 });
 blake.Init();
 blake.Update(seedBytes);
-blake.Update(BitConverter.GetBytes(index).Reverse().ToArray());
+blake.Update(BitConverter.IsLittleEndian ? BitConverter.GetBytes(index).Reverse().ToArray() : BitConverter.GetBytes(index));
 var privateKey = blake.Finish();
 {% endhighlight %}
 
-Great! Now we have the private key for the account. Using a different index value here would produce a different output. This means that a single seed is able to generate many accounts, and this process is deterministic, which is why you are able to enter the same seed into two different implementations of a wallet and get access to the same account.
+Great! Now we have the private key for the account. Using a different index value here would produce a different output. This means that a single seed is able to generate many accounts, and this process is deterministic, which is why you are able to enter the same seed into two different implementations of a wallet and get access to the same account. Of course, hashing the seed and index is just one way to create private keys, what I'm showing you here is how to get the same output as the official wallets, but you could generate the private key in your own way if you wanted to.
 
 # Generating the public key
 
-The public key is derived from the private key of the account. Nano uses the [Ed25519](https://ed25519.cr.yp.to/) signature scheme with the SHA512 hash replaced with Blake2b. I am using [this](https://github.com/hanswolff/ed25519) library to  do my signing, altered by changing the `ComputeHash` method to use the Blake2b implementation instead.
+The public key is derived from the private key of the account. Nano uses the [Ed25519](https://ed25519.cr.yp.to/) signature scheme with the SHA512 hash replaced with Blake2b. I am using [this](https://github.com/hanswolff/ed25519) library to do my signing, altered by changing the `ComputeHash` method to use the Blake2b implementation instead.
 
 *Ed25519.cs*
 {% highlight c# %}
@@ -148,4 +148,4 @@ Now we can concatenate all of the address parts together
 var address = "xrb_" + XrbEncode(publicKey) + XrbEncode(checksumBytes, false); 
 {% endhighlight %}
 
-And we're done :)
+And that's it! You can see how I've used these techniques to implement my helper classes in the Utils.cs class in my Nano library [here](https://github.com/Flufd/NanoDotNet/blob/master/NanoDotNet/Utils/Utils.cs)
