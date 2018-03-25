@@ -27,6 +27,8 @@ So how do we get from a seed to an address? There are three steps in the process
 
 `seed + index -> private key -> public key -> nano address`
 
+You can see how changing the seed affects the generation of the address on this [nanoo.tools page](https://nanoo.tools/key-address-seed-converter?type=seed&value=9F0E444C69F77A49BD0BE89DB92C38FE713E0963165CCA12FAF5712D7657120F)
+
 # Generating the private key
 
 Nano uses the Blake2b hashing algorthm to generate the private key from the seed. I'm using the c# implementation found here [https://github.com/BLAKE2/BLAKE2](https://github.com/BLAKE2/BLAKE2).
