@@ -92,7 +92,7 @@ The Nano address is formatted so that it only contains characters that are easil
 
 ![Nano Address Encoding]({{ "/assets/images/nano_address_encoding.png" | absolute_url }})
 
-This image from the [Exchange integration Guide](https://cdn.discordapp.com/attachments/370285507185344524/375275437527662593/RaiBlocks_Exchange_Integration_Guide_rev1.pdf) posted on the Nano discord shows the exact encoding for each character.
+This image from the [Exchange integration Guide](https://cdn.discordapp.com/attachments/370285507185344524/375275437527662593/RaiBlocks_Exchange_Integration_Guide_rev1.pdf) posted on the Nano discord shows the exact encoding for each character. Note that there is a slight error on this image; 00110 actually encodes to 8 and 00111 encodes to 9, instead of "a" and "b".
 
 The last 8 characters act as a checksum for the address. This checksum is computed as a 5 byte hash of the public key, reversed.
 
