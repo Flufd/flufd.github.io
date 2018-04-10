@@ -5,9 +5,9 @@ date:   2018-04-08 21:53:51 +0100
 categories: nano
 ---
 
-[Previously](/nano/2018/03/22/generating-nano-addresses.html) I looked at deriving private keys, public keys and addresses from Nano wallet seeds. This knowledge is of no use if we don't know how to create and sign a Nano block. There are currently five types of Nano block, the original four block types and the new universal block here we will look at just the original four block types, with a post on the uninversal blocks coming soon after. 
+[Previously](/nano/2018/03/22/generating-nano-addresses.html) I looked at deriving private keys, public keys and addresses from Nano wallet seeds. This knowledge is of no use if we don't know how to create and sign a Nano block. There are currently five types of Nano block, the original four block types and the new universal block. Here we will look at just the original four block types, with a post on the uninversal blocks coming soon after. 
 
-The four types of block we are going to look at are **Send**, **Receive**, **Change** and **Open**. First we will show how to create the hash of each block type and then how we go about signing the blocks. Signing the blocks proves to the network that the creator of the block is the account owner, or holder of the private key.
+The four types of block we are going to look at are **Send**, **Receive**, **Change** and **Open**. First we will show how to compute the hash of each block type and then how we go about signing the blocks. Signing the blocks proves to the network that the creator of the block is the account owner, or holder of the private key.
 
 # Send blocks
 
