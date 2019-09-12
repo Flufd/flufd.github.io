@@ -193,15 +193,15 @@ And that's it. This custom hook has a very similar interface to the original `us
 
 ## Lint rules for our custom hook
 
-After using this hook for a while, I realised that I missed the `exhaustive-deps` warning I got from eslint when I missed a dependency. Searching around the documentation, I couldn't find any nice way to get eslint to give me the same warnings I'd get with `useEffect`. I did find that I could do something like this:
+After using this hook for a while, I realised that I missed the `exhaustive-deps` warning I got from eslint when I missed a dependency. Searching around the documentation, I couldn't find a nice way to get eslint to give me the same warnings I'd get with `useEffect`. I did find that I could do something like this:
 
 ```jsx
 import { useCurrentEffect as useEffect } from "./hooks/useCurrentEffect";
 ```
 
-... this kind of works, but it conflicted with when I wanted to use the regular useEffect.
+This kind of works, but it seems messy and conflicts with when I want to use the regular `useEffect`.
 
-Eventually I found within the react-hooks/exhaustive-deps source, that you could configure custom hooks in the .eslint config file, with the `additionalHooks` option.
+Eventually I found within the `react-hooks/exhaustive-deps` source, that you could configure custom hooks in the .eslint config file, with the `additionalHooks` option.
 `"react-hooks/exhaustive-deps": ["warn", { "additionalHooks": "useCurrentEffect" }],`
 *Note: This option takes a regular expression.*
 
