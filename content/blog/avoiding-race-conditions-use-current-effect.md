@@ -1,7 +1,7 @@
 ---
 title: Avoiding useEffect race conditions with a custom hook
-date: "2019-10-09T22:40:32.169Z"
-description: A description
+date: "2019-09-10T22:40:32.169Z"
+description: Avoid race conditions and unmounted component warnings with a custom hook, useCurrentEffect
 ---
 
 If you have been using React hooks, specifically `useEffect` then you may have come across the same problem that I did when making asynchronous calls such as data fetching. I first encountered this when finding a warning in my console:
